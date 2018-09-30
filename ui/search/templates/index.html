@@ -1,0 +1,103 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Living Standards in Chicago</title>
+        <link rel="stylesheet" type="text/css" href="{% static "/main.css" %}" />
+    </head>
+    <body>
+        <div id="header">
+            <h1>Neighborhood Living Standard Score Search</h1>
+        </div>
+        <div class="frame">
+            <form method="get">
+                {% csrf_token %}
+                <table class="form">
+                {{ form }}
+                </table>
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+
+
+        <div class="frame">
+            {% if result != None %}
+            <div class="results">
+                <table class="courses">
+                    <tr>
+                        {% for col in columns %}
+                        <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for entry in result %}
+                    <tr>
+                        {% for col in entry %}
+                        <td>{{ col }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endif %}
+        </div>
+        {% if result != None %}
+        <p>Note: For all three scores, higher is better. <br> Demographic information for selected neighborhood:</p>
+        {% else %}
+        <p>Below are general trends for crime score, sanitation score
+            and education score in Chicago. <br> In the Crime heat map, a darker shade
+            means greater number and higher severity of crimes.</p>
+        {% endif %}
+        <img src="
+            {% if result %}
+                /static/fig1.png
+            {% else %}
+                /static/Heatmap_Chicago_2016.png
+            {% endif %}" width="500"
+        />
+        <img src="
+            {% if result %}
+                /static/fig2.png
+            {% else %}
+                /static/Heatmap_Chicago_2017.png
+            {% endif %}" width="500"
+        />
+        <img src="
+            {% if result %}
+                /static/fig3.png
+            {% else %}
+                /static/Delta_heatmap.png
+            {% endif %}" width="500"
+        />
+        <img src="
+            {% if result %}
+                /static/blank.gif
+            {% else %}
+                /static/General_Crime_Trend.png
+            {% endif %}" width="600"
+        />
+        <img src="
+            {% if result %}
+                /static/blank.gif
+            {% else %}
+                /static/Crime_Score_dist.png
+            {% endif %}" width="600"
+        />
+        {% if not result %}
+        <p>Below are heat maps for sanitation (left) and education (right). <br>
+            In the Sanitation map, a darker shade means more sanitation complaints. <br>
+            In the Education map, a darker shade means higher education quality in public high schools.</p>
+        {% endif %}
+        <iframe src="
+            {% if not result %}
+                 /static/sanitation-map.html
+            {% endif %}"
+            frameBorder="0" width="600" height="800">
+        </iframe>
+        <iframe src="
+            {% if not result %}
+                 /static/education-map.html
+            {% endif %}"
+            frameBorder="0" width="600" height="800">
+        </iframe> 
+    </body>
+</html>

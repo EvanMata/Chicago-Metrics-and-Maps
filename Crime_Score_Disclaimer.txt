@@ -1,0 +1,15 @@
+Crime Score Disclaimer
+
+The crime score metric is better in aggregate, as that serves to smooth our some of its inconsistancies. 
+The methodology behind the crime score calculation is as follows: 
+Every crime within the database has an Illinois Uniform Crime Reporting (IUCR) code. Each of these can be 
+mapped to a section of Illinois State Law, which has a associated Felony level and recommended sentence
+length. However, Illinois state law is highly irregular in format, so this data cannot be easily scraped.
+IUCRs are also grouped into categories - such as Robbery. For each categories, one can find a rough average 
+felony level. The 5 felony levels in Illinois have basic statistics that can be used to as metrics for
+weighing. However, this has a number of issues:
+One category, say Assult, has some very low and very high felony levels. Averaging them out gives a skewed
+distribution. 
+Even for a single IUCR within a category there are a range of circumstances that can extend or reduce the
+sentence. A special case is homicide - it is a lv X Felony, which caps at 30 years sentence, but it carries
+the death penalty or at the very least an extended sentence (twice the length of a normal Felony X). 
